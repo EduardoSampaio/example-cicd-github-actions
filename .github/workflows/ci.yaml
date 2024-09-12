@@ -1,5 +1,8 @@
 name: ci-nodejs-workflow
-on: [push]
+on:
+  pull_request:
+    branches:
+      - develop
 jobs:
   check-application:
     runs-on: ubuntu-latest
@@ -12,3 +15,6 @@ jobs:
           cache-dependency-path: ${{github.workspace}}/package-lock.json
       - run: npm ci
       - run: npm test
+    strategy:
+      matrix:
+        node: [18, 20]
