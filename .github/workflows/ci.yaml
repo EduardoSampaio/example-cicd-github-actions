@@ -15,6 +15,13 @@ jobs:
           cache-dependency-path: ${{github.workspace}}/package-lock.json
       - run: npm ci
       - run: npm test
-    strategy:
-      matrix:
-        node: [18, 20]
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v6
+        with:
+          push: false
+          tags: yamidudu/example-cicd-github-actions:latest
